@@ -24,20 +24,20 @@ public class ListNotesActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            Serializable extra = data.getSerializableExtra("Note");
-            if (extra != null) {
-                Note newNote = (Note) extra;
-                if (editingNoteId > -1) {
-                    notes.set(editingNoteId, newNote);
-                    editingNoteId = -1;
-                } else {
-                    notes.add(newNote);
-                }
-                populateList();
-            }
-        }else{
+        if(resultCode == RESULT_CANCELED) {
             editingNoteId = -1;
+            return;
+        }
+        Serializable extra = data.getSerializableExtra("Note");
+        if (extra != null) {
+            Note newNote = (Note) extra;
+        if (editingNoteId > -1) {
+            notes.set(editingNoteId, newNote);
+                editingNoteId = -1;
+            } else {
+                notes.add(newNote);
+            }
+            populateList();
         }
     }
 
